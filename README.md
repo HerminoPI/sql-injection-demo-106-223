@@ -37,16 +37,62 @@ Wir haben 3 User in unserer `users` Tabelle. Unser Ziel: **Login als Admin**, oh
 | 2  | marco     | `leet1337`  | User        |
 | 3  | leandra   | `TopSecret` | User        |
 
-### 2. Der Code (Die Schwachstelle)
+### 2. Die Schwachstelle im Code
 Wie überprüft das System unser Passwort? Klickt unten, um den Code aus `DatabaseService.java` zu sehen.
 
 <details>
-<summary> <b>Code anzeigen (Unsicher)</b></summary>
+<summary> <b>Unsichere Methode anzeigen</b></summary>
 
 ```java
 // ❌ UNSICHER: String Concatenation
 // Das System klebt unseren Input einfach an den Befehl:
 String sql = "SELECT * FROM users WHERE username = '" + inputUser + "' AND secret = '" + inputPass + "'";
-// Das Problem: Java vertraut dem Input blind. Das + Zeichen ist hier das Einfallstor.
 ```
+Das Problem: Java vertraut dem Input blind. Das + Zeichen ist hier das Einfallstor.
+</details>
+
+## 3. Der Schutz im Code
+
+Wie verhindern wir den Einbruch? Wir müssen Code und Daten trennen. Dafür nutzen wir in Java das **PreparedStatement**.
+
+<details>
+  <summary> <b>Sichere Methode anzeigen✅</b></summary>
+
+  ```java
+  // ✅ SICHER: PreparedStatement
+  // Wir nutzen Platzhalter (?) statt direkt Variablen einzufügen
+  String sql = "SELECT * FROM users WHERE username = ? AND secret = ?";
+
+  PreparedStatement pstmt = connection.prepareStatement(sql);
+  
+  // Die Lücken füllen wir sicher auf:
+  pstmt.setString(1, inputUser); // Füllt das 1. Fragezeichen
+  pstmt.setString(2, inputPass); // Füllt das 2. Fragezeichen
+```
+Warum das sicher ist: Der SQL-Befehl wird zuerst kompiliert. Die Datenbank weiss: "Da wo ? steht, kommen nur Daten hin". Selbst wenn ein Hacker ' OR '1'='1 eingibt, wird das nicht ausgeführt, sondern einfach als Text behandelt. Der Hack ist neutralisiert.
+
+</details>
+
+---
+
+## 🎓 Fazit (Takeaway)
+
+Was nehmen wir heute mit? Klickt hier für die Zusammenfassung.
+
+<details>
+  <summary>💡 <b>Die Goldene Regel anzeigen</b></summary>
+
+### 1. Niemals Strings basteln
+Benutze in produktiven Code **nie** das `+` Zeichen mit SQL, um User-Input einzufügen.
+
+### 2. Vertraue keinem Input
+Behandle alle Daten von ausserhalb als potenziell gefährlich. Egal ob User, Admin oder "internes System".
+
+### 3. Nutze PreparedStatements
+Das `?` ist dein Sicherheitsgurt. Es trennt **Code** (Befehl) von **Daten** (Input).
+
+  ---
+
+**🔗 Passendes MEME:**
+* [Bobby Tables (Comic & Erklärung)](https://imgs.xkcd.com/comics/exploits_of_a_mom_2x.png)
 </details>
