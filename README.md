@@ -51,7 +51,7 @@ String sql = "SELECT * FROM users WHERE username = '" + inputUser + "' AND secre
 Das Problem: Java vertraut dem Input blind. Das + Zeichen ist hier das Einfallstor.
 </details>
 
-## 3. Der Schutz im Code
+### 3. Der Schutz im Code
 
 Wie verhindern wir den Einbruch? Wir müssen Code und Daten trennen. Dafür nutzen wir in Java das **PreparedStatement**.
 
