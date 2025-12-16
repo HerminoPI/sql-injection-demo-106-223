@@ -1,0 +1,25 @@
+# ⚠️ Warum dein Login in 2 Sekunden gehackt wird
+
+> **"SQL Injection ist seit Jahren eine der grössten Sicherheitslücken im Web."**
+> — [OWASP Top 10 (A03: Injection)](https://owasp.org/Top10/2021/de/A03_2021-Injection/)
+
+Dieses Repo zeigt euch den tödlichen Fehler der **String-Concatenation*** und die professionelle Lösung.
+
+*<small>* String-Concatenation: Das einfache Zusammenkleben von Textbausteinen mit dem Plus-Zeichen (z.B. `"SELECT..." + userInput`).</small>*
+
+![Lehrablaufplan](assets/intro_image.png)
+
+---
+
+## 🛠️ Das Setup (Unsere Umgebung)
+
+Damit wir das sicher testen können, ohne einen echten Server zu zerstören, nutzen wir eine isolierte Labor-Umgebung.
+
+| Technologie | Warum wir das nutzen |
+| :--- | :--- |
+| ![Java](https://img.shields.io/badge/Java-18%2B-ED8B00?style=flat-square&logo=openjdk&logoColor=white) | Aktuelle Java-Version für moderne Syntax. |
+| ![Maven](https://img.shields.io/badge/Maven-Project-C71A36?style=flat-square&logo=apachemaven&logoColor=white) | Lädt automatisch alle Bibliotheken (kein manueller Download). |
+| **H2 Database** | Eine **In-Memory Datenbank**. Sie lebt im RAM. Nach dem Neustart ist sie wieder sauber. |
+| **MVC Pattern** | **Model-View-Controller**. Wir trennen sauberen Code (Logik) von der Anzeige (Konsole). |
+
+---
