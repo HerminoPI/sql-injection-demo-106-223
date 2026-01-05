@@ -63,11 +63,11 @@ Wie verhindern wir den Einbruch? Wir müssen Code und Daten trennen. Dafür nutz
   // Wir nutzen Platzhalter (?) statt direkt Variablen einzufügen
   String sql = "SELECT * FROM users WHERE username = ? AND secret = ?";
 
-  PreparedStatement pstmt = connection.prepareStatement(sql);
+  PreparedStatement preparedStatement = connection.prepareStatement(sql);
   
   // Die Lücken füllen wir sicher auf:
-  pstmt.setString(1, inputUser); // Füllt das 1. Fragezeichen
-  pstmt.setString(2, inputPass); // Füllt das 2. Fragezeichen
+  preparedStatement.setString(1, inputUser); // Füllt das 1. Fragezeichen
+  preparedStatement.setString(2, inputPass); // Füllt das 2. Fragezeichen
 ```
 Warum das sicher ist: Der SQL-Befehl wird zuerst kompiliert. Die Datenbank weiss: "Da wo ? steht, kommen nur Daten hin". Selbst wenn ein Hacker ' OR '1'='1 eingibt, wird das nicht ausgeführt, sondern einfach als Text behandelt. Der Hack ist neutralisiert.
 
