@@ -31,39 +31,16 @@ public class DatabaseService {
         // -----------------------------------------------------------
         // VARIANTE A: UNSICHER (String Concatenation)
         // -----------------------------------------------------------
-        try {
-            Statement stmt = connection.createStatement();
-
-            // HIER IST DAS SICHERHEITSLOCH:
-            // Wir kleben User und Passwort einfach in den String.
-            String sql = "SELECT * FROM users WHERE username = '" + inputUser + "' AND secret = '" + inputPass + "'";
-
-            System.out.println("[DB LOG] SQL: " + sql);
-
-            ResultSet rs = stmt.executeQuery(sql);
-            if (rs.next()) {
-                return "SUCCESS! Eingeloggt als: " + rs.getString("username");
-            }
-        } catch (SQLException e) {
-            return "SQL ERROR: " + e.getMessage();
-        }
-        return "DENIED. Falscher User oder falsches Passwort.";
-
-
-        // -----------------------------------------------------------
-        // VARIANTE B: SICHER (PreparedStatement)
-        // -----------------------------------------------------------
 //        try {
-//            // Die Fragezeichen sind Platzhalter für BEIDE Werte
-//            String sql = "SELECT * FROM users WHERE username = ? AND secret = ?";
+//            Statement stmt = connection.createStatement();
 //
-//            PreparedStatement pstmt = connection.prepareStatement(sql);
-//            pstmt.setString(1, inputUser); // Erstes ? ist User
-//            pstmt.setString(2, inputPass); // Zweites ? ist Passwort
+//            // HIER IST DAS SICHERHEITSLOCH:
+//            // Wir kleben User und Passwort einfach in den String.
+//            String sql = "SELECT * FROM users WHERE username = '" + inputUser + "' AND secret = '" + inputPass + "'";
 //
-//            System.out.println("[DB LOG] SQL: " + sql + " (Params: " + inputUser + ", ******) ");
+//            System.out.println("[DB LOG] SQL: " + sql);
 //
-//            ResultSet rs = pstmt.executeQuery();
+//            ResultSet rs = stmt.executeQuery(sql);
 //            if (rs.next()) {
 //                return "SUCCESS! Eingeloggt als: " + rs.getString("username");
 //            }
@@ -71,6 +48,29 @@ public class DatabaseService {
 //            return "SQL ERROR: " + e.getMessage();
 //        }
 //        return "DENIED. Falscher User oder falsches Passwort.";
+
+
+        // -----------------------------------------------------------
+        // VARIANTE B: SICHER (PreparedStatement)
+        // -----------------------------------------------------------
+        try {
+            // Die Fragezeichen sind Platzhalter für BEIDE Werte
+            String sql = "SELECT * FROM users WHERE username = ? AND secret = ?";
+
+            PreparedStatement preparedStatement = connection.prepareStatement(sql);
+            preparedStatement.setString(1, inputUser); // Erstes ? ist User
+            preparedStatement.setString(2, inputPass); // Zweites ? ist Passwort
+
+            System.out.println("[DB LOG] SQL: " + sql + " (Params: " + inputUser + ", ******) ");
+
+            ResultSet resultSets = preparedStatement.executeQuery();
+            if (resultSets.next()) {
+                return "SUCCESS! Eingeloggt als: " + resultSets.getString("username");
+            }
+        } catch (SQLException e) {
+            return "SQL ERROR: " + e.getMessage();
+        }
+        return "DENIED. Falscher User oder falsches Passwort.";
     }
 
 }

@@ -21,7 +21,7 @@ public class ConsoleUi {
     }
 
     public String getUserPassword() {
-        System.out.print("Passwort:  ");
+        System.out.print("Passwort:      ");
         return scanner.nextLine();
     }
 
