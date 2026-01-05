@@ -27,10 +27,10 @@ public class DatabaseService {
     }
 
     public String login(String inputUser, String inputPass) {
-//
-//        // -----------------------------------------------------------
-//        // VARIANTE A: UNSICHER (String Concatenation)
-//        // -----------------------------------------------------------
+
+        // -----------------------------------------------------------
+        // VARIANTE A: UNSICHER (String Concatenation)
+        // -----------------------------------------------------------
         try {
             Statement stmt = connection.createStatement();
 

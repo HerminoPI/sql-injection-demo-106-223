@@ -16,7 +16,7 @@ public class LoginController {
     public void start() {
         view.showWelcome();
 
-        // 1. Inputs holen (User UND Passwort)
+        // 1. Inputs abfragen (User UND Passwort)
         String user = view.getUserName();
         String pass = view.getUserPassword();
 

@@ -21,12 +21,12 @@ public class ConsoleUi {
     }
 
     public String getUserPassword() {
-        System.out.print("Passwort:     ");
+        System.out.print("Passwort:  ");
         return scanner.nextLine();
     }
 
     public void showResult(String result) {
-        System.out.println("\n>> SYSTEM ANTWORT:");
+        System.out.println("\n>> SYSTEM ANTWORT: ");
         System.out.println(result);
     }
 }
